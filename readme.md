@@ -18,23 +18,23 @@ Workintech programını tamamladığında şirketler yaptığın bu projeye de b
   - `express`
   - `dotenv`
   - `knex` v.b.
-- [ ] package.json dosyasında ihtiyacın olacak scriptleri yazmayı unutmayın.
-- [ ] klasör yapısını anlaşılır ve anlamlı olacak şekilde hazırlayın.
-- [ ] Her adımda commit atmayı unutmayın!!
+- [+] package.json dosyasında ihtiyacın olacak scriptleri yazm"ayı unutmayın.
+- [+] klasör yapısını anlaşılır ve anlamlı olacak şekilde hazırlayın.
+- [+] Her adımda commit atmayı unutmayın!!
 
 ### Görev 2: API
 
-- [ ] Gerekli fonksiyonalite için ayrı endpointler oluşturun.
-- [ ] En az 2 middleware fonksiyonu yazın ve doğru yerlerde kullanın.
-- [ ] Postman'da her endpoint için ayrı bir request oluşturun. Oluşturduğunuz collection'ı export edin ve projenin içerisine ekleyin.
-- [ ] Login için JWToken kullanın.
+- [+] Gerekli fonksiyonalite için ayrı endpointler oluşturun.
+- [+] En az 2 middleware fonksiyonu yazın ve doğru yerlerde kullanın.
+- [+] Postman'da her endpoint için ayrı bir request oluşturun. Oluşturduğunuz collection'ı export edin ve projenin içerisine ekleyin.
+- [+] Login için JWToken kullanın.
 
 ### Görev 3: DATA
 
-- [ ] Knex configuration ayarlarını yapın.
-- [ ] Farklı ortam(environment) ayarlarını yapın.
-- [ ] Veritabanını tasarlayın.
-- [ ] Migration ve seed dosyalarını oluşturun.
+- [+] Knex configuration ayarlarını yapın.
+- [+] Farklı ortam(environment) ayarlarını yapın.
+- [+] Veritabanını tasarlayın.
+- [+] Migration ve seed dosyalarını oluşturun.
 
 ### Görev 4: UNIT ve ENTEGRASYON TESTİ
 
