@@ -17,8 +17,8 @@ const verifyUser = (req, res, next) => {
         }
       });
     } else {
-      res.status(401).json({
-        message: "Token geçersiz, tekrar giriş yapınız.!!",
+      res.status(402).json({
+        message: "Token mevcut değil, üye olun yada tekrar giriş yapınız.!!",
       });
     }
   } catch (error) {
@@ -36,8 +36,18 @@ const authToChange = async (req, res, next) => {
     next();
   }
 };
+const tokenIsValid = async (req, res, next) => {
+  if (!req.tokenCode.user_id) {
+    res.status(401).json({
+      message: "Token Geçersiz",
+    });
+  } else {
+    next();
+  }
+};
 
 module.exports = {
   verifyUser,
   authToChange,
+  tokenIsValid,
 };

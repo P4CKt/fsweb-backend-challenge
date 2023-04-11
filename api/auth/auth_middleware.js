@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
-const { findPassword, findById } = require("./auth_model");
-const { json } = require("express");
+const { findPassword } = require("./auth_model");
+
 const passwordValidation = async function (req, res, next) {
   try {
     const { password } = req.body;
@@ -19,7 +19,7 @@ const usernameCheck = async (req, res, next) => {
     let { username } = req.body;
     const existUser = await findPassword(username);
     if (!existUser) {
-      res.status(404).json({ message: "Böyle bir user yok" });
+      res.status(401).json({ message: "Böyle bir user yok" });
     } else {
       req.user = existUser;
       next();
@@ -40,9 +40,21 @@ const conflictUsername = async (req, res, next) => {
     next(error);
   }
 };
+const isEmpty = async (req, res, next) => {
+  try {
+    if (!req.body.username || !req.body.e_mail || !req.body.password) {
+      res.status(401).json({ message: "Eksik bilgileri tamamlayınız" });
+    } else {
+      next();
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   passwordValidation,
   usernameCheck,
   conflictUsername,
+  isEmpty,
 };

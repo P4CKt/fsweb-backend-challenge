@@ -4,10 +4,11 @@ const {
   findByPost,
   insertNewPost,
   removePost,
+  updatePost,
 } = require("./post_model");
-const { authToChange } = require("./post_middleware");
+const { authToChange, verifyUser, tokenIsValid } = require("./post_middleware");
 
-router.get("/", async (req, res, next) => {
+router.get("/", verifyUser, tokenIsValid, async (req, res, next) => {
   try {
     const allData = await getAllPost();
     res.json(allData);
@@ -30,21 +31,23 @@ router.post("/", async (req, res, next) => {
       user_id: req.tokenCode.user_id,
     };
     const newData = await insertNewPost(model);
-    res.json(newData);
+    res.status(201).json(newData);
   } catch (error) {
     next(error);
   }
 });
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", authToChange, async (req, res, next) => {
   try {
+    const update = await updatePost(req.params.id, req.body);
+    res.status(201).json(update);
   } catch (error) {
     next(error);
   }
 });
 router.delete("/:id", authToChange, async (req, res, next) => {
   try {
-    const postDel = await removePost(req.params.id);
-    res.json(postDel);
+    await removePost(req.params.id);
+    res.status(204).json({ message: "Silme işlemi gerçekleşti" });
   } catch (error) {
     next(error);
   }
