@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const {
   insertNewUser,
   findPassword,
@@ -16,6 +18,7 @@ const {
   isEmpty,
 } = require("./auth_middleware");
 const { verifyUser } = require("../posts/post_middleware");
+
 router.post(
   "/login",
   usernameCheck,
@@ -56,11 +59,11 @@ router.post("/logout", async (req, res, next) => {
       randomNumberToAppend,
       10
     );
-    req.headers.authorization =
-      req.headers.authorization + hashedRandomNumberToAppend;
-    res
-      .status(202)
-      .json({ message: `Yine beklerizz ${req.headers.authorization}` });
+    const badToken = req.headers.authorization + hashedRandomNumberToAppend;
+    req.headers.authorization = badToken;
+    res.status(202).json({
+      message: `Yine beklerizz `,
+    });
   } catch (error) {
     next(error);
   }

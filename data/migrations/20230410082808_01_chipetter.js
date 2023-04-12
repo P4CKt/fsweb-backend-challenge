@@ -12,15 +12,15 @@ exports.up = function (knex) {
     })
     .createTable("posts", (tbl) => {
       tbl.increments("post_id");
-      tbl.string("post_content", 280).notNullable();
+      tbl.string("post_content", 280).notNullable;
       tbl.timestamp("post_date").defaultTo(knex.fn.now());
       tbl
         .integer("user_id")
         .notNullable()
         .references("user_id")
         .inTable("users")
-        .onDelete("RESTRICT")
-        .onUpdate("RESTRICT");
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
     })
     .createTable("post_interaction", (tbl) => {
       tbl.increments("interaction_id");
@@ -32,15 +32,15 @@ exports.up = function (knex) {
         .notNullable()
         .references("post_id")
         .inTable("posts")
-        .onDelete("RESTRICT")
-        .onUpdate("RESTRICT");
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
       tbl
         .integer("user_id")
         .notNullable()
         .references("user_id")
         .inTable("users")
-        .onDelete("RESTRICT")
-        .onUpdate("RESTRICT");
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
     });
 };
 

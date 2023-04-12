@@ -5,7 +5,7 @@
 exports.seed = async function (knex) {
   await knex("users").truncate();
 
-  return await knex("users").insert([
+  await knex("users").insert([
     {
       user_id: 1,
       username: "kahve_-_delisi",

@@ -36,6 +36,17 @@ const authToChange = async (req, res, next) => {
     next();
   }
 };
+const postToChange = async (req, res, next) => {
+  const targetPost = await findByPost(req.params.id);
+
+  if (req.tokenCode.user_id !== targetPost[0].user_id) {
+    res.status(401).json({
+      message: `Buna yetkiniz yok ${targetPost[0].user_id} ; ${req.tokenCode.user_id}`,
+    });
+  } else {
+    next();
+  }
+};
 const tokenIsValid = async (req, res, next) => {
   if (!req.tokenCode.user_id) {
     res.status(401).json({
@@ -50,4 +61,5 @@ module.exports = {
   verifyUser,
   authToChange,
   tokenIsValid,
+  postToChange,
 };

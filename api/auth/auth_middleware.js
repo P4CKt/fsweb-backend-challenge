@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { findPassword } = require("./auth_model");
+const db = require("../../data/db-config");
 
 const passwordValidation = async function (req, res, next) {
   try {
@@ -31,8 +32,18 @@ const usernameCheck = async (req, res, next) => {
 const conflictUsername = async (req, res, next) => {
   try {
     const isExist = await findPassword(req.body.username);
+    const isEmailExist = await db("users")
+      .where("e_mail", req.body.e_mail)
+      .first();
+
     if (isExist) {
-      res.status(402).json({ message: "Bu username daha önce alınmış" });
+      res.status(402).json({
+        message: `Bu username daha önce alınmış`,
+      });
+    } else if (isEmailExist) {
+      res.status(402).json({
+        message: `Bu e-mail daha önce alınmış`,
+      });
     } else {
       next();
     }

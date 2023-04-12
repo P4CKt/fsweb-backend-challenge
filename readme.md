@@ -39,23 +39,23 @@ Workintech programını tamamladığında şirketler yaptığın bu projeye de b
 ### Görev 4: UNIT ve ENTEGRASYON TESTİ
 
 - [ ] Veritabanı erişim fonksiyonları için Unit Testleri oluşturun.
-- [ ] API endpointleri için entegrasyon testleri yazın.
-- [ ] Testler için environment'ı değiştirdiğinizden ve knex'de ayrı ayarlar kullandığınızdan emin olun.
+- [+] API endpointleri için entegrasyon testleri yazın.
+- [+] Testler için environment'ı değiştirdiğinizden ve knex'de ayrı ayarlar kullandığınızdan emin olun.
 
 #### PROJE DEĞERLENDİRME KRİTERLERİ:
 
 - [ ] Proje dosyaları ve klasörleri doğru ve anlamlı olarak yapılandırılmış mı?
-- [ ] .gitignore dosyası var mı?
-- [ ] Dependency'ler doğru yapılandırılmış mı? (dependency, devDependency)
+- [+] .gitignore dosyası var mı?
+- [+] Dependency'ler doğru yapılandırılmış mı? (dependency, devDependency)
 - [ ] Ayarlar farklı ortamlar için doğru yapılandırılmış mı ve doğru yerden okuyor mu?
-- [ ] Router kullanılmış mı?
-- [ ] Model fonksiyonları kullanılmış mı?
-- [ ] response status kodları doğru mu, mesajları anlaşılır mı?
-- [ ] reponse'da veri doğru şekilde dönüyor mu, gereksiz tekrar eden bilgiler var mı?
-- [ ] Error Midlleware eklenmiş mi?
-- [ ] En az 2 tane middleware fonskiyonu eklenmiş mi?
-- [ ] JWToken doğru kullanılmış mı?
-- [ ] Migration, Seed dosyaları doğru oluşturulmuş mu?
+- [+] Router kullanılmış mı?
+- [+] Model fonksiyonları kullanılmış mı?
+- [+] response status kodları doğru mu, mesajları anlaşılır mı?
+- [+] reponse'da veri doğru şekilde dönüyor mu, gereksiz tekrar eden bilgiler var mı?
+- [+] Error Midlleware eklenmiş mi?
+- [+] En az 2 tane middleware fonskiyonu eklenmiş mi?
+- [+] JWToken doğru kullanılmış mı?
+- [+] Migration, Seed dosyaları doğru oluşturulmuş mu?
 - [ ] Secret ve environment ayarları farklı ortamlar için ayrı olacak şekilde ayarlanmış mı?
 - [ ] Postman'da collection oluşturulmuş ve export edilmiş mi?
-- [ ] Unit ve entegrasyonları testleri yeterli miktarda yazılmış mı?
+- [+] Unit ve entegrasyonları testleri yeterli miktarda yazılmış mı?
