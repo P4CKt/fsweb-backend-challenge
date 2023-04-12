@@ -19,6 +19,9 @@ const {
 } = require("./auth_middleware");
 const { verifyUser } = require("../posts/post_middleware");
 
+router.get("/", (req, res, next) => {
+  res.status(200).json({ message: "DENEMEE 1233" });
+});
 router.post(
   "/login",
   usernameCheck,
