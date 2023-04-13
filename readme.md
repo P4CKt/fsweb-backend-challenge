@@ -1,14 +1,6 @@
-# Sprint Challenge: React Twitter Clone Projesi için REST API Oluşturma
+### HEROKU
 
-## Proje Açıklaması
-
-Tebrikler, Backend konularını tamamladın.
-
-Bilgisayar bilimleri konularına geçmeden önce öğrendiğin her konuyu kullanarak -daha önce react tekrarı için yaptığın- twitter clone'u projesi için REST API oluşturacaksın. Bu senin Backend konusunda ne seviyede olduğunu gösterecek.
-Yaptığın siteyi Heroku'da da yayınlayacaksın(sanal kart girmeyi ve sanal karta LİMİT KOYMAmaya dikkat!!!).
-Workintech programını tamamladığında şirketler yaptığın bu projeye de bakacaklar. O yüzden öğrendiğin her konuyu kullandığın, tam çalışır durumda bir proje yapmanı tavsiye ederiz.
-
-## Talimatlar
+https://chipetter.herokuapp.com/
 
 ### Görev 1: Projenizin set-up'ını yapın.
 

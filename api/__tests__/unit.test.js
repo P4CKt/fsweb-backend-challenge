@@ -45,11 +45,30 @@ describe("[UNIT TEST AUTH]", () => {
     expect(users.e_mail).toBe("dasdas@sdassdd");
     expect(users).toHaveProperty("user_id");
   });
-  test("[5] remove çalışıyor mu ", async () => {
-    const users = await authModel.remove(2);
-    expect(users).toBe("deneme1");
+});
+describe("[UNIT TEST POST]", () => {
+  test("[1] getAllpost çalışıyor mu ", async () => {
+    const post = await postModel.getAllPost();
+    expect(post).toHaveLength(3);
   });
-  test("[6] Like kontrol çalışıyor mu mu ", async () => {
+  test("[2] findByPost çalışıyor mu ", async () => {
+    const post = await postModel.findByPost(1);
+    expect(post[0]).toHaveProperty("post_content");
+    expect(post[0].post_content).toBe(
+      "Canım çok kahve istiyor çocukken kahve kazanına düşmedim mi yoksa "
+    );
+  });
+  test("[3] getAllComment çalışıyor mu ", async () => {
+    const post = await postModel.getAllComment(1);
+
+    expect(post[0].comment).toBe("Filtre Kahvem var :P");
+  });
+  test("[4] getAllComment çalışıyor mu ", async () => {
+    const post = await postModel.getAllComment(1);
+
+    expect(post[0].comment).toBe("Filtre Kahvem var :P");
+  });
+  test("[5] Like kontrol çalışıyor mu mu ", async () => {
     const users = await postModel.isLikes(2, 1);
     expect(users.liked).toEqual(1);
   });

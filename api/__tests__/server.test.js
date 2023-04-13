@@ -206,7 +206,7 @@ describe("User register", () => {
         .set("authorization", login.body.token);
 
       expect(res.status).toBe(201);
-      expect(res.body[0].post_content).toBe("Merhabalarr");
+      expect(res.body.post_content).toBe("Merhabalarr");
     });
     it("[17] [POST] Yanlış token ile post atabiliyor mu?", async () => {
       const res = await supertest(server)
@@ -237,7 +237,7 @@ describe("User register", () => {
     });
   });
   describe("USER INTERACTION", () => {
-    it("[GET] Postların yorumları geliyor mu?", async () => {
+    it("[19] GET Postların yorumları geliyor mu?", async () => {
       let sampleUser12 = { username: "p4ck8", password: "123s4" };
       const login = await supertest(server)
         .post("/api/users/login")
@@ -250,7 +250,7 @@ describe("User register", () => {
       expect(res.status).toBe(200);
       expect(res.body.postComment[0].username).toBe("kahve_-_ayusu");
     });
-    it("[GET] Postların yorumları geliyor mu?", async () => {
+    it("[20] GET Postların yorumları geliyor mu?", async () => {
       let sampleUser12 = { username: "p4ck8", password: "123s4" };
       const login = await supertest(server)
         .post("/api/users/login")
@@ -263,7 +263,7 @@ describe("User register", () => {
       expect(res.status).toBe(200);
       expect(res.body.postComment[0].username).toBe("kahve_-_ayusu");
     });
-    it("[POST] Postlara yorum atılıyor mu?", async () => {
+    it("[21] POST Postlara yorum atılıyor mu?", async () => {
       let sampleUser12 = { username: "p4ck8", password: "123s4" };
       const login = await supertest(server)
         .post("/api/users/login")
@@ -277,7 +277,7 @@ describe("User register", () => {
       expect(res.status).toBe(201);
       expect(res.body[0].username).toBe("p4ck8");
     });
-    it("[DELETE] Başkalarının yorumu siliniyor mu?", async () => {
+    it("[22] DELETE Başkalarının yorumu siliniyor mu?", async () => {
       let sampleUser12 = { username: "p4ck8", password: "123s4" };
       const login = await supertest(server)
         .post("/api/users/login")
@@ -296,7 +296,7 @@ describe("User register", () => {
       expect(del.status).toBe(401);
       expect(del.body.message).toBe("Başkalarının yorumunu silemezsiniz");
     });
-    it("[POST] like atılıyor mu?", async () => {
+    it("[23] POST like atılıyor mu?", async () => {
       let sampleUser12 = { username: "p4ck8", password: "123s4" };
       const login = await supertest(server)
         .post("/api/users/login")
@@ -309,7 +309,7 @@ describe("User register", () => {
       expect(like.status).toBe(201);
       expect(like.body.username).toBe("p4ck8");
     });
-    it("[POST] unlike atılıyor mu?", async () => {
+    it("[24] POST unlike atılıyor mu?", async () => {
       let sampleUser = {
         username: "p4ck6",
         password: "1234",

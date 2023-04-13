@@ -30,7 +30,7 @@ const authToChange = async (req, res, next) => {
 
   if (req.tokenCode.user_id !== targetPost[0].user_id) {
     res.status(401).json({
-      message: `Buna yetkiniz yok ${targetPost[0].user_id} ; ${req.tokenCode.user_id}`,
+      message: `Buna yetkiniz yok `,
     });
   } else {
     next();

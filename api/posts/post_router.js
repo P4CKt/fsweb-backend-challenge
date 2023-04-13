@@ -50,14 +50,14 @@ router.post("/", async (req, res, next) => {
         user_id: req.tokenCode.user_id,
       };
       const newData = await insertNewPost(model);
-      res.status(201).json(newData);
+      res.status(201).json(newData[0]);
     }
   } catch (error) {
     next(error);
   }
 });
 
-router.put("/:id", authToChange, async (req, res, next) => {
+router.put("/:id", postIsExist, authToChange, async (req, res, next) => {
   try {
     const update = await updatePost(req.params.id, req.body);
     res.status(201).json(update);
@@ -76,7 +76,7 @@ router.delete("/:id", authToChange, async (req, res, next) => {
 });
 
 // Comment
-router.get("/:id/comment", async (req, res, next) => {
+router.get("/:id/comment", postIsExist, async (req, res, next) => {
   try {
     const targetPost = await findByPost(req.params.id);
     const postComment = await getAllComment(req.params.id);
@@ -85,7 +85,7 @@ router.get("/:id/comment", async (req, res, next) => {
     next(error);
   }
 });
-router.post("/:id/comment", async (req, res, next) => {
+router.post("/:id/comment", postIsExist, async (req, res, next) => {
   try {
     if (!req.body.comment) {
       res.status(401).json({ message: "Yorum yazınız" });
@@ -103,21 +103,26 @@ router.post("/:id/comment", async (req, res, next) => {
     next(error);
   }
 });
-router.delete("/:id/comment", idIsExist, async (req, res, next) => {
-  try {
-    const isValid = await getByCommentID(req.body.interaction_id);
-    if (isValid.user_id == req.tokenCode.user_id) {
-      const oke = removeComment(req.body.interaction_id);
-      return res.status(204).json({ message: "Silme işlemi başarılı", oke });
-    } else {
-      res.status(401).json({
-        message: `Başkalarının yorumunu silemezsiniz`,
-      });
+router.delete(
+  "/:id/comment",
+  postIsExist,
+  idIsExist,
+  async (req, res, next) => {
+    try {
+      const isValid = await getByCommentID(req.body.interaction_id);
+      if (isValid.user_id == req.tokenCode.user_id) {
+        const oke = removeComment(req.body.interaction_id);
+        return res.status(204).json({ message: "Silme işlemi başarılı", oke });
+      } else {
+        res.status(401).json({
+          message: `Başkalarının yorumunu silemezsiniz`,
+        });
+      }
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
   }
-});
+);
 // Likes
 router.get("/:id/likes", postIsExist, async (req, res, next) => {
   try {

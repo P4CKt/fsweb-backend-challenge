@@ -5,7 +5,7 @@ const getAllPost = () => {
 };
 const findByPost = (post_id) => {
   return db("posts")
-    .select("post_id", "post_content", "post_date")
+    .select("post_id", "post_content", "post_date", "user_id")
     .where("post_id", post_id);
 };
 

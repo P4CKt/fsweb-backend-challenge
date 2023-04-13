@@ -103,8 +103,10 @@ router.delete(
       if (!req.tokenCode.user_id) {
         res.status(401).json({ message: "Lütfen önce giriş yapıız" });
       } else {
-        let removeUser = await remove(req.tokenCode.user_id);
-        res.status(204).json(removeUser);
+        await remove(req.tokenCode.user_id);
+        res
+          .status(204)
+          .json({ message: "Silme işlemi gerçekleşti tekrar bekleriz" });
       }
     } catch (error) {
       next(error);

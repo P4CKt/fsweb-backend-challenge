@@ -29,8 +29,7 @@ const updateToUser = async (input, user_id) => {
   return findById({ user_id: user_id });
 };
 const remove = async (user_id) => {
-  await db("users").where("user_id", user_id).del();
-  return findById(user_id);
+  return await db("users").where("user_id", user_id).del();
 };
 
 module.exports = {
