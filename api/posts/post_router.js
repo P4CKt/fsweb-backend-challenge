@@ -59,7 +59,8 @@ router.post("/", async (req, res, next) => {
 
 router.put("/:id", postIsExist, authToChange, async (req, res, next) => {
   try {
-    const update = await updatePost(req.params.id, req.body);
+    let id = req.params.id;
+    const update = await updatePost(id, req.body);
     res.status(201).json(update);
   } catch (error) {
     next(error);

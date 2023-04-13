@@ -14,8 +14,8 @@ const insertNewPost = async (input) => {
 
   return findByPost(added[0]);
 };
-const updatePost = async (post_id, body) => {
-  await db("posts").where("post_id", post_id).update(body);
+const updatePost = async (post_id, input) => {
+  await db("posts as p").where("p.post_id", post_id).update(input);
   return findByPost(post_id);
 };
 
