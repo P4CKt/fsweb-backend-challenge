@@ -219,9 +219,25 @@ describe("User register", () => {
       expect(res.status).toBe(401);
       expect(res.body.message).toBe("Token geçersiz, tekrar giriş yapınız.!!");
     });
+    it("[18] [POST] Post içeriği olmadan post atılabiliyor mu", async () => {
+      let sampleUser12 = { username: "p4ck8", password: "123s4" };
+      const login = await supertest(server)
+        .post("/api/users/login")
+        .send(sampleUser12);
+
+      const res = await supertest(server)
+        .post("/api/post/")
+        .send({
+          eksik: "Merhabalarr",
+        })
+        .set("authorization", login.body.token);
+
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe("Lütfen Post içeriği giriniz");
+    });
   });
   describe("USER INTERACTION", () => {
-    it("[Get] Postların yorumları geliyor mu?", async () => {
+    it("[GET] Postların yorumları geliyor mu?", async () => {
       let sampleUser12 = { username: "p4ck8", password: "123s4" };
       const login = await supertest(server)
         .post("/api/users/login")
@@ -233,6 +249,85 @@ describe("User register", () => {
 
       expect(res.status).toBe(200);
       expect(res.body.postComment[0].username).toBe("kahve_-_ayusu");
+    });
+    it("[GET] Postların yorumları geliyor mu?", async () => {
+      let sampleUser12 = { username: "p4ck8", password: "123s4" };
+      const login = await supertest(server)
+        .post("/api/users/login")
+        .send(sampleUser12);
+
+      const res = await supertest(server)
+        .get("/api/post/1/comment")
+        .set("authorization", login.body.token);
+
+      expect(res.status).toBe(200);
+      expect(res.body.postComment[0].username).toBe("kahve_-_ayusu");
+    });
+    it("[POST] Postlara yorum atılıyor mu?", async () => {
+      let sampleUser12 = { username: "p4ck8", password: "123s4" };
+      const login = await supertest(server)
+        .post("/api/users/login")
+        .send(sampleUser12);
+
+      const res = await supertest(server)
+        .post("/api/post/3/comment")
+        .send({ comment: "Kahve edebiyatı içilir " })
+        .set("authorization", login.body.token);
+
+      expect(res.status).toBe(201);
+      expect(res.body[0].username).toBe("p4ck8");
+    });
+    it("[DELETE] Başkalarının yorumu siliniyor mu?", async () => {
+      let sampleUser12 = { username: "p4ck8", password: "123s4" };
+      const login = await supertest(server)
+        .post("/api/users/login")
+        .send(sampleUser12);
+
+      const res = await supertest(server)
+        .post("/api/post/3/comment")
+        .send({ comment: "Kahve edebiyatı içilir " })
+        .set("authorization", login.body.token);
+
+      expect(res.status).toBe(201);
+      const del = await supertest(server)
+        .delete("/api/post/3/comment")
+        .send({ interaction_id: 1 })
+        .set("authorization", login.body.token);
+      expect(del.status).toBe(401);
+      expect(del.body.message).toBe("Başkalarının yorumunu silemezsiniz");
+    });
+    it("[POST] like atılıyor mu?", async () => {
+      let sampleUser12 = { username: "p4ck8", password: "123s4" };
+      const login = await supertest(server)
+        .post("/api/users/login")
+        .send(sampleUser12);
+
+      const like = await supertest(server)
+        .post("/api/post/3/likes")
+        .send({ liked: 1 })
+        .set("authorization", login.body.token);
+      expect(like.status).toBe(201);
+      expect(like.body.username).toBe("p4ck8");
+    });
+    it("[POST] unlike atılıyor mu?", async () => {
+      let sampleUser = {
+        username: "p4ck6",
+        password: "1234",
+        e_mail: "user@hotmail.com",
+      };
+      await supertest(server).post("/api/users/register").send(sampleUser);
+
+      let sampleUser12 = { username: "p4ck6", password: "1234" };
+      const login = await supertest(server)
+        .post("/api/users/login")
+        .send(sampleUser12);
+
+      const like = await supertest(server)
+        .post("/api/post/3/likes")
+        .send({ liked: 1 })
+        .set("authorization", login.body.token);
+      expect(like.status).toBe(201);
+      expect(like.body.date).toMatch(/2023/);
     });
   });
 });

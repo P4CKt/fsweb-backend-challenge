@@ -4,7 +4,9 @@ const getAllPost = () => {
   return db("posts");
 };
 const findByPost = (post_id) => {
-  return db("posts").where("post_id", post_id);
+  return db("posts")
+    .select("post_id", "post_content", "post_date")
+    .where("post_id", post_id);
 };
 
 const insertNewPost = async (input) => {
@@ -27,12 +29,7 @@ const getAllComment = async (post_id) => {
   const targetPost = await db("post_interaction as pi")
     .leftJoin("posts as p", "pi.post_id", "p.post_id")
     .leftJoin("users as u", "pi.user_id", "u.user_id")
-    .select(
-      "u.username",
-      "pi.comment",
-      "pi.liked ",
-      "pi.interaction_date as date"
-    )
+    .select("u.username", "pi.comment", "pi.interaction_date as date")
     .where("p.post_id", post_id)
     .not.where("pi.comment", "LIKE");
   return targetPost;
@@ -50,11 +47,10 @@ const removeComment = async (interaction_id) => {
 };
 const getByCommentID = async (interaction_id) => {
   const user = await db("post_interaction")
-    .select("user_id")
     .where("interaction_id", interaction_id)
     .first();
 
-  return user.user_id;
+  return user ? user : "boş";
 };
 //Likes
 const isLikes = async (user_id, post_id) => {
@@ -72,13 +68,13 @@ const isLikes = async (user_id, post_id) => {
     return null;
   }
 };
-const getAllLikes = async (post_id) => {
+const getAllLikes = async (user_id) => {
   const targetPost = await db("post_interaction as pi")
     .leftJoin("posts as p", "pi.post_id", "p.post_id")
     .leftJoin("users as u", "pi.user_id", "u.user_id")
     .select("u.username", "pi.interaction_date as date")
     .where("pi.liked", 1 || 0)
-    .where("p.post_id", post_id);
+    .where("pi.user_id", user_id);
 
   return targetPost;
 };
@@ -95,13 +91,13 @@ const likesCount = async (post_id) => {
 const insertNewLike = async (input) => {
   await db("post_interaction").insert(input);
 
-  return getAllLikes(input.post_id);
+  return getAllLikes(input.user_id);
 };
 const changeLike = async (input, interaction_id) => {
   await db("post_interaction")
     .where("interaction_id", interaction_id)
     .update(input);
-  return getAllLikes(input.post_id);
+  return getAllLikes(input.user_id);
 };
 
 module.exports = {

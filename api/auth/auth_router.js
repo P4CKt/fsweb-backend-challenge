@@ -22,6 +22,7 @@ const { verifyUser } = require("../posts/post_middleware");
 router.get("/", (req, res, next) => {
   res.status(200).json({ message: "DENEMEE 1233" });
 });
+
 router.post(
   "/login",
   usernameCheck,
@@ -55,6 +56,7 @@ router.post("/register", isEmpty, conflictUsername, async (req, res, next) => {
     next(error);
   }
 });
+
 router.post("/logout", async (req, res, next) => {
   try {
     let randomNumberToAppend = toString(Math.floor(Math.random() * 1000 + 1));
@@ -98,10 +100,12 @@ router.delete(
 
   async (req, res, next) => {
     try {
-      let removeUser = await remove(req.tokenCode.user_id);
-      res.status(204).json({
-        message: `Silme işlemi gerçekleşti ${removeUser}tekrar görüşme ümitleriyle`,
-      });
+      if (!req.tokenCode.user_id) {
+        res.status(401).json({ message: "Lütfen önce giriş yapıız" });
+      } else {
+        let removeUser = await remove(req.tokenCode.user_id);
+        res.status(204).json(removeUser);
+      }
     } catch (error) {
       next(error);
     }

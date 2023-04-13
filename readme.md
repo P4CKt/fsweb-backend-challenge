@@ -38,13 +38,13 @@ Workintech programını tamamladığında şirketler yaptığın bu projeye de b
 
 ### Görev 4: UNIT ve ENTEGRASYON TESTİ
 
-- [ ] Veritabanı erişim fonksiyonları için Unit Testleri oluşturun.
+- [+] Veritabanı erişim fonksiyonları için Unit Testleri oluşturun.
 - [+] API endpointleri için entegrasyon testleri yazın.
 - [+] Testler için environment'ı değiştirdiğinizden ve knex'de ayrı ayarlar kullandığınızdan emin olun.
 
 #### PROJE DEĞERLENDİRME KRİTERLERİ:
 
-- [ ] Proje dosyaları ve klasörleri doğru ve anlamlı olarak yapılandırılmış mı?
+- [+] Proje dosyaları ve klasörleri doğru ve anlamlı olarak yapılandırılmış mı?
 - [+] .gitignore dosyası var mı?
 - [+] Dependency'ler doğru yapılandırılmış mı? (dependency, devDependency)
 - [ ] Ayarlar farklı ortamlar için doğru yapılandırılmış mı ve doğru yerden okuyor mu?

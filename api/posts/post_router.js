@@ -15,7 +15,12 @@ const {
   removeComment,
   getByCommentID,
 } = require("./post_model");
-const { authToChange, verifyUser, tokenIsValid } = require("./post_middleware");
+const {
+  authToChange,
+  idIsExist,
+  tokenIsValid,
+  postIsExist,
+} = require("./post_middleware");
 
 router.get("/", tokenIsValid, async (req, res, next) => {
   try {
@@ -37,12 +42,16 @@ router.get("/:id", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const model = {
-      post_content: req.body.post_content,
-      user_id: req.tokenCode.user_id,
-    };
-    const newData = await insertNewPost(model);
-    res.status(201).json(newData);
+    if (!req.body.post_content) {
+      res.status(401).json({ message: "Lütfen Post içeriği giriniz" });
+    } else {
+      const model = {
+        post_content: req.body.post_content,
+        user_id: req.tokenCode.user_id,
+      };
+      const newData = await insertNewPost(model);
+      res.status(201).json(newData);
+    }
   } catch (error) {
     next(error);
   }
@@ -78,34 +87,39 @@ router.get("/:id/comment", async (req, res, next) => {
 });
 router.post("/:id/comment", async (req, res, next) => {
   try {
-    const model = {
-      comment: req.body.comment,
-      user_id: req.tokenCode.user_id,
-      post_id: req.params.id,
-      liked: null,
-    };
-    const newData = await insertNewComment(model);
-    res.status(201).json(newData);
+    if (!req.body.comment) {
+      res.status(401).json({ message: "Yorum yazınız" });
+    } else {
+      const model = {
+        comment: req.body.comment,
+        user_id: req.tokenCode.user_id,
+        post_id: req.params.id,
+        liked: null,
+      };
+      const newData = await insertNewComment(model);
+      res.status(201).json(newData);
+    }
   } catch (error) {
     next(error);
   }
 });
-router.delete("/:id/comment", async (req, res, next) => {
+router.delete("/:id/comment", idIsExist, async (req, res, next) => {
   try {
     const isValid = await getByCommentID(req.body.interaction_id);
-
-    if (isValid == req.tokenCode.user_id) {
-      const remove = await removeComment(req.body.interaction_id);
-      res.status(204).json(remove);
+    if (isValid.user_id == req.tokenCode.user_id) {
+      const oke = removeComment(req.body.interaction_id);
+      return res.status(204).json({ message: "Silme işlemi başarılı", oke });
     } else {
-      res.status(401).json({ message: ` Başkalarının yorumunu silemezsiniz ` });
+      res.status(401).json({
+        message: `Başkalarının yorumunu silemezsiniz`,
+      });
     }
   } catch (error) {
     next(error);
   }
 });
 // Likes
-router.get("/:id/likes", async (req, res, next) => {
+router.get("/:id/likes", postIsExist, async (req, res, next) => {
   try {
     const targetPost = await findByPost(req.params.id);
     const postLikes = await getAllLikes(req.params.id);
@@ -115,7 +129,7 @@ router.get("/:id/likes", async (req, res, next) => {
     next(error);
   }
 });
-router.post("/:id/likes", async (req, res, next) => {
+router.post("/:id/likes", tokenIsValid, postIsExist, async (req, res, next) => {
   try {
     const validate = await isLikes(req.tokenCode.user_id, req.params.id);
 
@@ -128,7 +142,7 @@ router.post("/:id/likes", async (req, res, next) => {
       };
 
       const newData = await insertNewLike(model);
-      res.status(201).json(newData);
+      res.status(201).json(newData[0]);
     } else {
       const model = {
         user_id: req.tokenCode.user_id,
@@ -137,8 +151,7 @@ router.post("/:id/likes", async (req, res, next) => {
       };
 
       const newData = await changeLike(model, validate.id);
-      res.status(201).json(newData);
-      res.json({ message: validate });
+      return res.status(201).json(newData[0]);
     }
   } catch (error) {
     next(error);

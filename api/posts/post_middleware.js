@@ -56,10 +56,31 @@ const tokenIsValid = async (req, res, next) => {
     next();
   }
 };
+const idIsExist = async (req, res, next) => {
+  if (!req.body.interaction_id) {
+    res.status(401).json({
+      message: "interaction ID eksik",
+    });
+  } else {
+    next();
+  }
+};
+const postIsExist = async (req, res, next) => {
+  const post = await findByPost(req.params.id);
+  if (!post[0]) {
+    res.status(401).json({
+      message: "Böyle bir Post bulunamadı",
+    });
+  } else {
+    next();
+  }
+};
 
 module.exports = {
   verifyUser,
   authToChange,
   tokenIsValid,
   postToChange,
+  idIsExist,
+  postIsExist,
 };
