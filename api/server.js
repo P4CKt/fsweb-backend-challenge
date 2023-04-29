@@ -1,8 +1,12 @@
 const express = require("express");
+const cors = require("cors");
+const helmet = require("helmet");
 const { verifyUser } = require("./posts/post_middleware");
 const userRouter = require("./auth/auth_router");
 const postRouter = require("./posts/post_router");
 const server = express();
+server.use(helmet());
+server.use(cors());
 
 server.use(express.json());
 

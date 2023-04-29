@@ -67,6 +67,8 @@ const isLikes = async (user_id, post_id) => {
   } else {
     return null;
   }
+  // return targetPost ? targetPost : null; /1
+  // return targetPost /2
 };
 const getAllLikes = async (user_id) => {
   const targetPost = await db("post_interaction as pi")
@@ -84,7 +86,7 @@ const likesCount = async (post_id) => {
     .leftJoin("users as u", "pi.user_id", "u.user_id")
     .select("u.username as username")
     .where("pi.liked", 1)
-    .where("p.post_id", post_id);
+    .where("p.post_id", post_id); //count
 
   return targetPost.length;
 };
