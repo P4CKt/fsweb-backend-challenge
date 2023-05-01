@@ -1,7 +1,15 @@
 const db = require("../../data/db-config");
 
 const getAllPost = () => {
-  return db("posts");
+  return db("posts as p")
+    .leftJoin("users as u", "u.user_id", "p.user_id")
+    .select(
+      "u.username",
+      "p.post_id",
+      "p.post_content",
+      "p.post_date",
+      "u.user_id"
+    );
 };
 const findByPost = (post_id) => {
   return db("posts")
@@ -82,8 +90,6 @@ const getAllLikes = async (user_id) => {
 };
 const likesCount = async (post_id) => {
   const targetPost = await db("post_interaction as pi")
-    .leftJoin("posts as p", "pi.post_id", "p.post_id")
-    .leftJoin("users as u", "pi.user_id", "u.user_id")
     .select("u.username as username")
     .where("pi.liked", 1)
     .where("p.post_id", post_id); //count
