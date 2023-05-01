@@ -4,7 +4,6 @@
  */
 
 exports.up = function (knex) {
-  const nowInTurkey = knex.fn.convertTz(knex.fn.now(), "+00:00", "+03:00");
   return knex.schema
     .createTable("users", (tbl) => {
       tbl.string("user_id").unique();
@@ -15,7 +14,7 @@ exports.up = function (knex) {
     .createTable("posts", (tbl) => {
       tbl.increments("post_id");
       tbl.string("post_content", 280).notNullable;
-      tbl.timestamp("post_date").defaultTo(nowInTurkey);
+      tbl.timestamp("post_date").defaultTo(knex.fn.now());
       tbl
         .integer("user_id")
         .notNullable()
