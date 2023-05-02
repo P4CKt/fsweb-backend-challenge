@@ -30,9 +30,11 @@ router.post(
   async (req, res, next) => {
     try {
       const { user_id } = await findPassword(req.body.username);
+      const { e_mail } = await findById(user_id);
       const model = {
         username: req.body.username,
         user_id: user_id,
+        e_mail: e_mail,
       };
       const token = utils.createToken(model, "1d");
       res.json({ message: `welcomee`, token: token });
