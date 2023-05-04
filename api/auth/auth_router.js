@@ -7,6 +7,7 @@ const {
   findPassword,
   updateToUser,
   remove,
+  findById,
 } = require("./auth_model");
 
 const utils = require("../../secret/utils");
